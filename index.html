@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>TalkWith Boss</title>
+  <style>
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(to bottom right, #ffe3ec, #d8f3dc);
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-container {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+    h2 {
+      color: #ff4d6d;
+      text-align: center;
+    }
+    label {
+      margin: 8px 0 4px;
+      display: block;
+      font-weight: bold;
+    }
+    select, textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #ff6f91;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      width: 100%;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2 style="text-align: center; color: #ff4d6d;">
+  <img src="https://cdn-icons-png.flaticon.com/512/2950/2950706.png" 
+       alt="Message Icon" 
+       style="height: 48px; vertical-align: middle; margin-right: 10px;">
+  TalkWith Boss
+</h2>
+    <form id="data-form">
+      <label>ประเด็น *</label>
+      <select name="topic" required>
+        <option value="">-- กรุณาเลือก --</option>
+        <option value="บุคลากร">บุคลากร</option>
+        <option value="หน่วยงาน/สถานที่">หน่วยงาน/สถานที่</option>
+        <option value="ด้านการบริการ">ด้านการบริการ</option>
+        <option value="อื่นๆ">อื่นๆ</option>
+      </select>
+
+      <label>รายละเอียด</label>
+      <textarea name="details" rows="4"></textarea>
+
+      <label>ช่องทางติดต่อกลับ</label>
+      <input type="text" name="contact" placeholder="เบอร์โทร / Line / Email">
+
+      <button type="submit">ส่งข้อมูล</button>
+      <p id="response-msg" style="margin-top: 12px; text-align: center;"></p>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("data-form");
+    const msg = document.getElementById("response-msg");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      fetch("https://script.google.com/macros/s/AKfycbyCp5Et-xNu8DDOwPFfpxqnoOWpO7k50Rta002f-Vt1GhmNVVh8K-aLqQBoiebqra_K/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      msg.textContent = "✅ ส่งข้อมูลสำเร็จ ขอบคุณสำหรับข้อเสนอแนะค่ะ!";
+      form.reset();
+    });
+  </script>
+</body>
+</html>
